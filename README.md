@@ -17,5 +17,10 @@ Người chơi sẽ điều khiển một chiếc phi thuyền không gian, liê
 *   **Game Engine:** Unity
 *   **Ngôn ngữ lập trình:** C#
 
+## 📥 Cách tải và chơi thử
+1. Vào phần **Releases** ở thanh bên phải của trang GitHub này.
+2. Tải file `SpriteFlight_v1.0` về máy.
+3. Giải nén và chạy file `.exe` để chơi.
+
 ---
 *Cảm ơn bạn đã ghé thăm dự án của tôi!*
