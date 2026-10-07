@@ -12,6 +12,7 @@ Người chơi sẽ điều khiển một chiếc phi thuyền không gian, liê
 ## ✨ Các tính năng nổi bật
 *   Hệ thống tính điểm và lưu kỷ lục (High Score).
 *   Độ khó tăng dần theo thời gian.
+*   Gồm 10 item buff/debuff, một khoảng thời gian sẽ bay ngẫu nhiên để người chơi nhặt, debuff sẽ đuổi theo bạn!
 
 ## 🛠️ Công cụ sử dụng
 *   **Game Engine:** Unity
