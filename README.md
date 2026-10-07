@@ -23,5 +23,8 @@ Người chơi sẽ điều khiển một chiếc phi thuyền không gian, liê
 2. Tải file `SpriteFlight_v1.0` về máy.
 3. Giải nén và chạy file `.exe` để chơi.
 
+## CHƠI THỬ:
+https://play.unity.com/en/games/6b7f5c2e-4926-49f7-8477-c7a1bd3097f9/spriteflightweb
+
 ---
 *Cảm ơn bạn đã ghé thăm dự án của tôi!*
