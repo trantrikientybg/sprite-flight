@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 488086307}
   - component: {fileID: 488086306}
   - component: {fileID: 488086305}
+  - component: {fileID: 488086309}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -500,6 +501,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1000
   m_TargetDisplay: 0
+--- !u!114 &488086309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488086304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a195f650dcdb4e06912e2a2de9e55b60, type: 3}
+  m_Name: ''
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveEffectsUI
+  fontAsset: {fileID: 11400000, guid: e3fcc2666391eb44a83df2438e727bc4, type: 2}
+  edgePadding: 28
+  panelWidth: 380
+  panelOpacity: 0.62
+  fontSize: 26
+  rowHeight: 34
 --- !u!224 &488086308
 RectTransform:
   m_ObjectHideFlags: 0
@@ -697,6 +716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 553257259}
   - component: {fileID: 553257260}
+  - component: {fileID: 553257261}
   m_Layer: 0
   m_Name: ObstacleManager
   m_TagString: Untagged
@@ -732,6 +752,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleManager
   obstaclePrefab: {fileID: 1892281844674941250, guid: 0bd7da1529b93974eaa09ba77017c12e, type: 3}
+  obstacleSpriteFolder: {fileID: 102900000, guid: 8c49c04513182014184e34b998da9b9a, type: 3}
+  obstacleSprites:
+  - {fileID: 21300000, guid: 63a629c9fd344be458619d4d8cb83fa7, type: 3}
+  - {fileID: 21300000, guid: 35766b9dd9964684082498bc73be7211, type: 3}
+  - {fileID: 21300000, guid: 700723a7ba81cbf4fa01a51310de13ad, type: 3}
+  - {fileID: 21300000, guid: 218f076ae5d5d894a90bfce6bdf049ed, type: 3}
+  - {fileID: 21300000, guid: d21e06875ebd7d7468ee8a12d2ff3654, type: 3}
+  - {fileID: 21300000, guid: 6beb43f8a05dc3a46a49a86cd9373433, type: 3}
+  - {fileID: 21300000, guid: c29d1b285f2445f42a74762f16eaecae, type: 3}
+  - {fileID: 21300000, guid: c01b4597e6e034841b06643893034d09, type: 3}
+  - {fileID: 21300000, guid: 51ac140430da01a4f8459a59bd1c3fa1, type: 3}
+  - {fileID: 21300000, guid: 9a7c1fb6baaeec34eb7e84b64342a2c7, type: 3}
+  - {fileID: 21300000, guid: defba795a72a7324cb88cf366867cabd, type: 3}
+  - {fileID: 21300000, guid: b84b48f0acd90c3478d92ab3e5d40e6a, type: 3}
   targetObstacleCount: 5
   player: {fileID: 2102051465}
   minDistanceFromPlayer: 5
@@ -740,8 +774,45 @@ MonoBehaviour:
   minObstacleLifetime: 12
   maxObstacleLifetime: 20
   despawnIfSpeedBelow: 0.25
+  initialObstacleSpeed: 3.5
+  speedIncreasePerSecond: 0.025
+  maximumObstacleSpeed: 6
   spawnGrowDuration: 0.35
   fadeOutDuration: 0.75
+--- !u!114 &553257261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553257258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7865cb19d217164ca83da51bf2895f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerupManager
+  powerupPrefabs:
+  - {fileID: 331164564176324856, guid: 6c3f1c705e21fdd40ae144eba72d71ab, type: 3}
+  - {fileID: 7630718395522872963, guid: 5c45ed4667ba56543ba49ed6303c927a, type: 3}
+  - {fileID: 2881875526785833935, guid: 64214d06de410324f8b7a291b51f62be, type: 3}
+  - {fileID: 8279199183866357681, guid: 998ba7ffe1e5d2c45b00813794e6c7b9, type: 3}
+  - {fileID: 3418852992543209574, guid: eac40d5e959b8e147945c09c37577d73, type: 3}
+  - {fileID: 150807099564396565, guid: f479abdd4013dbf4898b218cde3aa066, type: 3}
+  - {fileID: 7970810070077211608, guid: bab8e4aed18c248458b0b04fe16fbc89, type: 3}
+  - {fileID: 1909987156589461969, guid: 05c4753d2ed1c4d4aaf3da269fb6a310, type: 3}
+  - {fileID: 6630386011443925466, guid: c330ff5ea13f43141b767b52516a537d, type: 3}
+  - {fileID: 607808952096261467, guid: 14068a40bff0cac4d8c68bc672aafdb0, type: 3}
+  initialSpawnInterval: 5
+  minimumSpawnInterval: 3
+  timeToMinimumSpawnInterval: 300
+  spawnChance: 0.7
+  minLifetime: 7
+  maxLifetime: 10
+  fadeOutDuration: 2
+  spawnOutsideViewport: 0.1
+  flySpeed: 3.5
+  negativeEffectSpeedMultiplier: 1.5
+  timedEffectDuration: 5
 --- !u!1 &579393991
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,6 +1535,98 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774837898}
   m_CullTransparentMesh: 1
+--- !u!1 &919595722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 919595724}
+  - component: {fileID: 919595723}
+  m_Layer: 0
+  m_Name: skybox-space-galaxy_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &919595723
+SpriteRenderer:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919595722}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -2000
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -1205236144839853310, guid: 2b283af2ae72e31479239c4e86900678, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 40.96, y: 20.48}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
+--- !u!4 &919595724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919595722}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.25973, y: 0.034541, z: 0}
+  m_LocalScale: {x: 0.57, y: 0.57, z: 0.57}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &950491169
 GameObject:
   m_ObjectHideFlags: 0
@@ -2909,3 +3072,4 @@ SceneRoots:
   - {fileID: 1877324026}
   - {fileID: 659582086}
   - {fileID: 771653505}
+  - {fileID: 919595724}

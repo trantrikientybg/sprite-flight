@@ -1,21 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(PolygonCollider2D))]
 public class Obstacles : MonoBehaviour
 {
     [Header("Min Max Scale")]
     public float minScale = 0.5f;
     public float maxScale = 1.5f;
 
-    [Header("Min Max Speed")]
-    public float minSpeed = 2.5f;
-    public float maxSpeed = 5f;
-
     [Header("Spawn Rotation")]
     public bool randomizeSpawnRotation = true;
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private PolygonCollider2D polygonCollider;
+    private readonly List<Vector2> physicsShape = new List<Vector2>();
     private ObstacleManager manager;
     private Color originalColor;
     private Vector3 targetScale;
@@ -26,6 +25,7 @@ public class Obstacles : MonoBehaviour
     private float age;
     private float despawnTimer;
     private float effectTimer;
+    private float initialMovementSpeed;
     private bool isDespawning;
     private bool isManaged;
 
@@ -34,20 +34,62 @@ public class Obstacles : MonoBehaviour
         float obstacleLifetime,
         float minSpeedToLive,
         float spawnDuration,
-        float despawnDuration)
+        float despawnDuration,
+        float movementSpeed)
     {
         manager = obstacleManager;
         lifetime = obstacleLifetime;
         slowSpeedThreshold = Mathf.Max(0f, minSpeedToLive);
         growDuration = Mathf.Max(0f, spawnDuration);
         fadeDuration = Mathf.Max(0f, despawnDuration);
+        initialMovementSpeed = Mathf.Max(0f, movementSpeed);
         isManaged = true;
+    }
+
+    public bool SetSprite(Sprite sprite)
+    {
+        if (sprite == null)
+        {
+            Debug.LogError("Cannot assign a null sprite to an obstacle.", this);
+            return false;
+        }
+
+        int shapeCount = sprite.GetPhysicsShapeCount();
+        if (shapeCount == 0)
+        {
+            Debug.LogError("The obstacle sprite has no Physics Shape. Generate or define one in the Sprite Editor.", this);
+            return false;
+        }
+
+        List<Vector2[]> paths = new List<Vector2[]>(shapeCount);
+        for (int i = 0; i < shapeCount; i++)
+        {
+            physicsShape.Clear();
+            sprite.GetPhysicsShape(i, physicsShape);
+            if (physicsShape.Count < 3)
+            {
+                Debug.LogError("The obstacle sprite contains an invalid Physics Shape with fewer than three points.", this);
+                return false;
+            }
+
+            paths.Add(physicsShape.ToArray());
+        }
+
+        spriteRenderer.sprite = sprite;
+        polygonCollider.pathCount = paths.Count;
+        for (int i = 0; i < paths.Count; i++)
+        {
+            polygonCollider.SetPath(i, paths[i]);
+        }
+
+        return true;
     }
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        polygonCollider = GetComponent<PolygonCollider2D>();
         originalColor = spriteRenderer.color;
     }
 
@@ -56,9 +98,6 @@ public class Obstacles : MonoBehaviour
         float scaleMin = Mathf.Max(0f, Mathf.Min(minScale, maxScale));
         float scaleMax = Mathf.Max(scaleMin, Mathf.Max(minScale, maxScale));
         float scale = Random.Range(scaleMin, scaleMax);
-        float speedMin = Mathf.Max(0f, Mathf.Min(minSpeed, maxSpeed));
-        float speedMax = Mathf.Max(speedMin, Mathf.Max(minSpeed, maxSpeed));
-        float speed = Random.Range(speedMin, speedMax);
 
         if (randomizeSpawnRotation)
         {
@@ -78,7 +117,7 @@ public class Obstacles : MonoBehaviour
             direction = Vector2.right;
         }
 
-        rb.AddForce(direction * speed, ForceMode2D.Impulse);
+        rb.linearVelocity = direction * initialMovementSpeed;
     }
 
     void Update()
@@ -126,6 +165,38 @@ public class Obstacles : MonoBehaviour
         }
     }
 
+    public void SetMovementSpeed(float speed)
+    {
+        if (rb == null || isDespawning)
+        {
+            return;
+        }
+
+        Vector2 direction = rb.linearVelocity.sqrMagnitude > Mathf.Epsilon
+            ? rb.linearVelocity.normalized
+            : Random.insideUnitCircle.normalized;
+        if (direction.sqrMagnitude <= Mathf.Epsilon)
+        {
+            direction = Vector2.right;
+        }
+
+        rb.linearVelocity = direction * Mathf.Max(0f, speed);
+    }
+
+    public void ApplyScaleMultiplier(float multiplier)
+    {
+        if (multiplier > 0f)
+        {
+            transform.localScale *= multiplier;
+        }
+    }
+
+    public void DisassociateFromManager()
+    {
+        isManaged = false;
+        manager = null;
+    }
+
     void UpdateDespawnEffect()
     {
         if (fadeDuration <= 0f)
@@ -149,7 +220,7 @@ public class Obstacles : MonoBehaviour
     {
         if (isManaged && manager != null)
         {
-            manager.NotifyObstacleDestroyed();
+            manager.NotifyObstacleDestroyed(this);
         }
     }
 }
